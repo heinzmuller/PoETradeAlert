@@ -21,18 +21,23 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: MSBuild@1
+- task: VSBuild@1
   inputs:
     solution: '$(solution)'
+    msbuildArgs: '/p:OutDir=$(System.DefaultWorkingDirectory)\bin\$(buildPlatform)\$(buildConfiguration)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(Build.ArtifactStagingDirectory)"'
 
-- task: PublishBuildArtifacts@1
+- task: CopyFiles@2
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    SourceFolder: '$(System.DefaultWorkingDirectory)\bin\$(buildPlatform)\$(buildConfiguration)'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    path: '$(Build.ArtifactStagingDirectory)'
+    artifact: '$(solution)'
 
 - task: GitHubRelease@0
   inputs:
