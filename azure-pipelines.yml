@@ -28,6 +28,12 @@ steps:
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
 - task: GitHubRelease@0
   inputs:
     gitHubConnection: 'github'
@@ -35,4 +41,4 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'auto'
-    assets: '$(Build.BinariesDirectory)\PoETradeAlert.exe'
+    assets: '$(Build.ArtifactStagingDirectory)/*.exe'
