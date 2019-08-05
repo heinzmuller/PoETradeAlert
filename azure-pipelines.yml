@@ -10,8 +10,8 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
+  solution: '**/PoETradeAlert.sln'
+  buildPlatform: 'x86'
   buildConfiguration: 'Release'
 
 steps:
@@ -37,7 +37,7 @@ steps:
 - task: PublishPipelineArtifact@1
   inputs:
     path: '$(Build.ArtifactStagingDirectory)'
-    artifact: '$(solution)'
+    artifact: 'PoETradeAlert'
 
 - task: GitHubRelease@0
   inputs:
