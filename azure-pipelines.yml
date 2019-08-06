@@ -21,12 +21,12 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: VSBuild@1
+- task: MSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:OutDir=$(System.DefaultWorkingDirectory)\bin\$(buildPlatform)\$(buildConfiguration)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    msbuildArguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
 
 - task: CopyFiles@2
   inputs:
