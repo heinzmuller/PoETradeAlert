@@ -33,6 +33,7 @@ steps:
     SourceFolder: '$(System.DefaultWorkingDirectory)\PoETradeAlert\bin\$(buildConfiguration)'
     Contents: |
       **\*.exe
+      **\*.config
       **\*.pdb
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
@@ -46,7 +47,7 @@ steps:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
     includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/PoETradeAlert.zip'
     replaceExistingArchive: true
 
 - task: GitHubRelease@0
